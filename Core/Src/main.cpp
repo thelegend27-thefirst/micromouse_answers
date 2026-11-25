@@ -34,9 +34,10 @@
 #include "system_clock.h"
 #include "gpio.hpp"
 #include "motor_driver.h"
-#include "i2c1.h"
-
-
+#include "i2c1.h" 
+#include "adc1.h"
+#include "IR_sensors.hpp"
+ 
 void StartDefaultTask(void *argument);
 void IR_sensor_task(void *argument);
 void BLE_telemetry_task(void *arguement);
@@ -45,7 +46,8 @@ void IMU_task(void *arguement);
 struct IR_readings{
     uint16_t right_IR_sensor;
     uint16_t left_IR_sensor;
-    uint16_t front_IR_sensor;
+    uint16_t front_left_IR_sensor;
+    uint16_t front_right_IR_sensor;
 };
 
 QueueHandle_t irQueue;
@@ -161,27 +163,42 @@ void StartDefaultTask(void *argument)
   {
     motor_brake();
     LED.toggle();
-    vTaskDelay(50);
+    vTaskDelay(500);
   }
 }
 
 void IR_sensor_task(void *argument)
 {
-  /* USER CODE BEGIN 5 */
+  GPIO IR_LED1(GPIOB, GPIO_PIN_2);
+  GPIO IR_LED2(GPIOB, GPIO_PIN_4);
+  GPIO IR_LED3(GPIOB, GPIO_PIN_5);
+  GPIO IR_LED4(GPIOB, GPIO_PIN_12);
+
+  ADC1_Init();
+
+  enum IR_Receiver
+  {
+      IR_OUT_1 = 10,
+      IR_OUT_2 = 4,
+      IR_OUT_3 = 6,
+      IR_OUT_4 = 7
+  };
+
   IR_readings readings;
 
   /* Infinite loop */
   while(1)
   {
-    readings.right_IR_sensor = 100;
-    readings.left_IR_sensor = 200;
-    readings.front_IR_sensor = 300;
+    //these may be mismatched, check during testing
+    readings.right_IR_sensor = IR_Read(IR_LED1, IR_OUT_1);
+    readings.left_IR_sensor = IR_Read(IR_LED2, IR_OUT_2);
+    readings.front_right_IR_sensor = IR_Read(IR_LED3, IR_OUT_3);
+    readings.front_left_IR_sensor = IR_Read(IR_LED4, IR_OUT_4);
 
     xQueueOverwrite(irQueue, &readings);
 
     vTaskDelay(10);
   }
-  /* USER CODE END 5 */
 }
 
 void BLE_telemetry_task(void *argument)
