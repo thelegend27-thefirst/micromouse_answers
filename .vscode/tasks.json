@@ -1,0 +1,51 @@
+
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build STM32",
+      "type": "process",
+      "command": "cube-cmake",
+      "args": [
+        "--build",
+        "${workspaceFolder}/build/Debug"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Flash STM32",
+      "type": "process",
+      "command": "cube",
+      "args": [
+        "programmer",
+        "--connect",
+        "port=SWD",
+        "--download",
+        "${workspaceFolder}/build/Debug/Micromouse_Fall_2026.elf",
+        "-v",
+        "-rst",
+        "--start"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Wireless Console",
+      "type": "process",
+      "command": "python",
+      "args": [
+        "-u",
+        "${workspaceFolder}/Core/Src/wireless.py"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "focus": true,
+        "panel": "dedicated"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

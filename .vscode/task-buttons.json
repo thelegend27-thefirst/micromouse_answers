@@ -1,0 +1,23 @@
+
+{
+  "buttons": [
+    {
+      "name": "Build",
+      "task": "Build STM32",
+      "icon": "🔨",
+      "tooltip": "Build STM32 firmware"
+    },
+    {
+      "name": "Flash",
+      "task": "Flash STM32",
+      "icon": "⚡",
+      "tooltip": "Flash STM32 through ST-LINK"
+    },
+    {
+      "name": "Wireless",
+      "task": "Wireless Console",
+      "icon": "📡",
+      "tooltip": "Connect to RN4871 over Bluetooth"
+    }
+  ]
+}
