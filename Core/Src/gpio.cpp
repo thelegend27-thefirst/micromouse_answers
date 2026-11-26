@@ -3,7 +3,7 @@
 GPIO::GPIO(GPIO_TypeDef* port, uint16_t pin)
     : port(port), pin(pin)
 {
-    Enable_GPIO_Clk(port, pin);
+    Enable_GPIO_Clk(port);
     GPIO_Output_Mode_Enable(port, pin);
     Push_Pull_enable(port, pin);
     Disable_Internal_Resistors(port, pin);

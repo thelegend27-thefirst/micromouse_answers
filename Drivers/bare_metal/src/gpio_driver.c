@@ -1,9 +1,37 @@
 #include "gpio_driver.h"
 #include "stm32f4xx_hal_gpio.h"
 
-void Enable_GPIO_Clk(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin){
-    RCC->AHB1ENR |= GPIO_Pin;
+void Enable_GPIO_Clk(GPIO_TypeDef* GPIOx)
+{
+    if (GPIOx == GPIOA)
+    {
+        RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
+    }
+    else if (GPIOx == GPIOB)
+    {
+        RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN;
+    }
+    else if (GPIOx == GPIOC)
+    {
+        RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;
+    }
+    else if (GPIOx == GPIOD)
+    {
+        RCC->AHB1ENR |= RCC_AHB1ENR_GPIODEN;
+    }
+    else if (GPIOx == GPIOE)
+    {
+        RCC->AHB1ENR |= RCC_AHB1ENR_GPIOEEN;
+    }
+    else if (GPIOx == GPIOH)
+    {
+        RCC->AHB1ENR |= RCC_AHB1ENR_GPIOHEN;
+    }
+
+    // Ensure the clock enable write has completed
+    (void)RCC->AHB1ENR;
 }
+
 
 void GPIO_Output_Mode_Enable(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin){
     uint8_t pin_pos;

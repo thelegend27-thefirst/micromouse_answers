@@ -11,10 +11,9 @@ extern "C" {
 /*
 @brief Enables GPIO clk for GPIO to function
 @param GPIO port 
-@param GPIO pin
 @return None
 */
-void Enable_GPIO_Clk(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
+void Enable_GPIO_Clk(GPIO_TypeDef* GPIOx);
 
 /*
 @brief Sets GPIO mode to output 
