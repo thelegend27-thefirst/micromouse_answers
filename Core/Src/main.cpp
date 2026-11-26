@@ -175,6 +175,7 @@ void IR_sensor_task(void *argument)
   GPIO IR_LED4(GPIOB, GPIO_PIN_12);
 
   ADC1_Init();
+  Delay_US_Init();
 
   enum IR_Receiver
   {
@@ -184,7 +185,10 @@ void IR_sensor_task(void *argument)
       IR_OUT_4 = 7
   };
 
-  IR_readings readings;
+  IR_readings readings{};
+
+  //what time is it right now
+  TickType_t lastWakeTime = xTaskGetTickCount();
 
   /* Infinite loop */
   while(1)
@@ -196,8 +200,9 @@ void IR_sensor_task(void *argument)
     readings.front_left_IR_sensor = IR_Read(IR_LED4, IR_OUT_4);
 
     xQueueOverwrite(irQueue, &readings);
-
-    vTaskDelay(10);
+    
+    //task sleeps until lastwaketime + 10 ticks
+    vTaskDelayUntil(&lastWakeTime, pdMS_TO_TICKS(10));
   }
 }
 
