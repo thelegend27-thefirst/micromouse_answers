@@ -76,13 +76,13 @@ int main(void)
 
   /* Create the thread(s) */
   /* creation of defaultTask */
-    BaseType_t result = xTaskCreate(
-      StartDefaultTask,
-      "defaultTask",
-      512,
-      NULL,
-      2,
-      NULL
+  BaseType_t result = xTaskCreate(
+    StartDefaultTask,
+    "defaultTask",
+    512,
+    NULL,
+    2,
+    NULL
   );
 
   if (result != pdPASS) {
